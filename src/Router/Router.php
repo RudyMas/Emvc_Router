@@ -1,6 +1,6 @@
 <?php
 
-namespace RudyMas\Router;
+namespace EasyMVC\Router;
 
 use EasyMVC\Core\Core;
 use Exception;
@@ -14,7 +14,7 @@ use Mobile_Detect;
  * @copyright   2018, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
  * @version     1.0.0.1
- * @package     RudyMas\Router
+ * @package     EasyMVC\Router
  */
 class Router
 {
