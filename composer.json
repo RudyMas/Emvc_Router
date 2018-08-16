@@ -2,7 +2,7 @@
   "name": "easymvc/router",
   "description": "PHP Class Router for the EasyMVC Framework",
   "type": "library",
-  "license": "GPL-3.0",
+  "license": "GPL-3.0-or-later",
   "authors": [
     {
       "name": "Rudy Mas",
@@ -14,7 +14,10 @@
   "minimum-stability": "stable",
   "require": {
     "php": ">= 7.1",
-    "mobiledetect/mobiledetectlib": "^2.8",
+    "mobiledetect/mobiledetectlib": "^2",
+    "ext-apache": "*"
+  },
+  "require-dev": {
     "easymvc/core": "^0"
   },
   "autoload": {

@@ -8,12 +8,12 @@ use Mobile_Detect;
 
 /**
  * Class Router (PHP version 7.1)
- * Build upon EasyRouter
+ * Build upon EasyRouter (rudymas/easyrouter)
  *
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2018, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     1.0.0.1
+ * @version     1.0.1.2
  * @package     EasyMVC\Router
  */
 class Router
@@ -74,15 +74,15 @@ class Router
 
 
     /**
-     * @var string $core
+     * @var string $Core
      * Needed for injecting Emvc_Core into Framework
      */
-    private $core;
+    private $Core;
 
     /**
      * @var Mobile_Detect
      */
-    private $detect;
+    private $Detect;
 
     /**
      * EmvcRouter constructor.
@@ -90,8 +90,8 @@ class Router
      */
     public function __construct(Core $Core)
     {
-        $this->core = $Core;
-        $this->detect = new Mobile_Detect();
+        $this->Core = $Core;
+        $this->Detect = new Mobile_Detect();
     }
 
     /**
@@ -118,12 +118,12 @@ class Router
     {
         $route = strtoupper($method) . rtrim($route, '/');
         if ($this->isRouteSet($route)) {
-            return FALSE;
+            return false;
         } else {
-            $args['Core'] = $this->core;
+            $args['Core'] = $this->Core;
             $this->routes[] = array('route' => $route, 'action' => $action, 'args' => $args,
                 'repositories' => $repositories, 'device' => $device);
-            return TRUE;
+            return true;
         }
     }
 
@@ -160,6 +160,7 @@ class Router
      */
     public function execute(): bool
     {
+        $this->checkFunctions();
         $this->processURL();
         if ($this->parameters['0'] == 'OPTIONS') {
             $this->respondOnOptionsRequest(200);
@@ -189,7 +190,7 @@ class Router
                         if (!empty($value['repositories'])) {
                             foreach ($value['repositories'] as $repositoryToLoad) {
                                 $repository = '\\Repositories\\' . $repositoryToLoad . 'Repository';
-                                $arguments[] = new $repository($this->core->DB['DBconnect'], null);
+                                $arguments[] = new $repository($this->Core->DB['DBconnect'], null);
                             }
                         }
                         $arguments[] = $variables;
@@ -199,7 +200,7 @@ class Router
                         $action = '\\Controllers\\' . $function2Execute[0] . 'Controller';
                         new $action($value['args'], $variables, $this->body);
                     }
-                    return TRUE;
+                    return true;
                 }
             }
         }
@@ -261,7 +262,7 @@ class Router
                     header('Location: ' . $this->defaultMobileApp . $path);
                     break;
                 case 'auto':
-                    if ($this->detect->isMobile()) {
+                    if ($this->Detect->isMobile()) {
                         header('Location: ' . $this->defaultMobileApp);
                     }
                     break;
@@ -339,6 +340,33 @@ class Router
         header('Access-Control-Allow-Headers: *');
         exit;
     }
-}
 
-/** End of File: Router.php **/
+    /**
+     * Checks if a certain function exists on the server, or not.
+     * I needed to add this, because else the router wouldn't work on a NGINX server!
+     */
+    private function checkFunctions()
+    {
+        if (!function_exists('apache_request_headers')) {
+            function apache_request_headers()
+            {
+                $arh = array();
+                $rx_http = '/\AHTTP_/';
+                foreach ($_SERVER as $key => $val) {
+                    if (preg_match($rx_http, $key)) {
+                        $arh_key = preg_replace($rx_http, '', $key);
+                        $rx_matches = explode('_', $arh_key);
+                        if (count($rx_matches) > 0 and strlen($arh_key) > 2) {
+                            foreach ($rx_matches as $ak_key => $ak_val) {
+                                $rx_matches[$ak_key] = ucfirst($ak_val);
+                            }
+                            $arh_key = implode('-', $rx_matches);
+                        }
+                        $arh[$arh_key] = $val;
+                    }
+                }
+                return ($arh);
+            }
+        }
+    }
+}
