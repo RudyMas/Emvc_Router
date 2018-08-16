@@ -13,7 +13,7 @@ use Mobile_Detect;
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2018, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     1.0.2.3
+ * @version     1.0.3.4
  * @package     EasyMVC\Router
  */
 class Router
@@ -190,7 +190,11 @@ class Router
                         if (!empty($value['repositories'])) {
                             foreach ($value['repositories'] as $repositoryToLoad) {
                                 $repository = '\\Repositories\\' . $repositoryToLoad . 'Repository';
-                                $arguments[] = new $repository($this->Core->DB['DBconnect'], null);
+                                if (empty($this->Core->DB['DBconnect'])) {
+                                    $arguments[] = new $repository(null);
+                                } else {
+                                    $arguments[] = new $repository($this->Core->DB['DBconnect'], null);
+                                }
                             }
                         }
                         $arguments[] = $variables;
