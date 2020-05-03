@@ -20,11 +20,8 @@
     "easymvc/core": "^0"
   },
   "autoload": {
-    "classmap": [
-      "src/"
-    ],
     "psr-4": {
-      "EasyMVC\\Router\\": "src/"
+      "EasyMVC\\": "src/"
     }
   }
 }

@@ -1,8 +1,7 @@
 <?php
 
-namespace EasyMVC\Router;
+namespace EasyMVC;
 
-use EasyMVC\Core\Core;
 use Exception;
 use Mobile_Detect;
 
@@ -11,9 +10,9 @@ use Mobile_Detect;
  * Build upon EasyRouter (rudymas/easyrouter)
  *
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
- * @copyright   2018, rmsoft.be. (http://www.rmsoft.be/)
+ * @copyright   2018-2020, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     1.1.0.5
+ * @version     1.1.0.6
  * @package     EasyMVC\Router
  */
 class Router
