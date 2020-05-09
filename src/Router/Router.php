@@ -6,14 +6,14 @@ use Exception;
 use Mobile_Detect;
 
 /**
- * Class Router (PHP version 7.1)
+ * Class Router (PHP version 7.2)
  * Build upon EasyRouter (rudymas/easyrouter)
  *
  * @author      Rudy Mas <rudy.mas@rmsoft.be>
  * @copyright   2018-2020, rmsoft.be. (http://www.rmsoft.be/)
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
- * @version     1.1.0.6
- * @package     EasyMVC\Router
+ * @version     1.1.1.0
+ * @package     EasyMVC
  */
 class Router
 {
